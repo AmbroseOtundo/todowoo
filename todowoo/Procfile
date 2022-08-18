@@ -1,1 +1,1 @@
-web: gunicorn todowoo-project.wsgi
+web: gunicorn todowoo.wsgi
