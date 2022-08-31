@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from .serializers import TodoSerializer
+from .serializers import TodoSerializer,TodoCompleteSerializer
 from todo.models import Todo
 
 # A class based view that inherits from the ListAPIView class. It is used to list all the todos that
@@ -32,6 +32,18 @@ class TodoListCreate(generics.ListCreateAPIView):
 # Retrieve update and destroy
 class TodoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TodoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Todo.objects.filter(user=user, datecompleted__isnull=True)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    # complete todo
+class TodoComplete(generics.UpdateAPIView):
+    serializer_class = TodoCompleteSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):

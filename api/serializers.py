@@ -1,3 +1,4 @@
+from dataclasses import field, fields
 from rest_framework import serializers
 from todo.models import Todo
 
@@ -10,3 +11,11 @@ class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = ['id', 'title', 'memo', 'created', 'datecompleted', 'important']
+
+# todo api completed
+class TodoCompleteSerializer(serializers.ModelSerializer):
+    # Making the fields read only.
+    class Meta:
+        model = Todo
+        fields = ['id']
+        read_only_fields = ['title', 'memo', 'created', 'datecompleted', 'important']
