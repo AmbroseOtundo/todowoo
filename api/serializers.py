@@ -9,4 +9,4 @@ class TodoSerializer(serializers.ModelSerializer):
     datecompleted = serializers.ReadOnlyField()
     class Meta:
         model = Todo
-        fields = ['title', 'memo', 'created', 'datecompleted', 'important']
+        fields = ['id', 'title', 'memo', 'created', 'datecompleted', 'important']

@@ -84,8 +84,10 @@ def viewtodo(request, todo_pk):
     # show the todos
     # the user=request.user makes sure the todos are salient to only the owner
     todo = get_object_or_404(Todo, pk=todo_pk,  user=request.user)
-    # check id its a get o post
+   
 
+    # This is a function that is called when the user clicks on the todo item. It will show the todo
+    # item and allow the user to edit it.
     if request.method == 'GET':
         form = TodoForm(instance=todo)
         return render(request, 'todo/viewtodo.html', {'todo':todo, 'form':form})
