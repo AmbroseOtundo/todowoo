@@ -1,6 +1,35 @@
+from lib2to3.pgen2 import token
+from django.db import IntegrityError
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.utils import timezone
 from rest_framework import generics, permissions
 from .serializers import TodoSerializer,TodoCompleteSerializer
 from todo.models import Todo
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
+
+# api signup auth
+"""
+    If the request method is POST, then create a user with the username and password provided in the
+    request body, and return a JsonResponse with a token.
+"""
+@csrf_exempt
+def signup(request):
+    if request.method == 'POST':
+        try:
+            data = JSONParser().parse(request)
+            user = User.objects.create_user(data['username'], password = data['password'] )
+            user.save()
+           # Creating a token for the user and returning it in the response.
+            token = Token.objects.create(user=user)
+            return JsonResponse({'token':str(token)}, status = 201)
+        except IntegrityError:
+            return  JsonResponse({'error':'That username is already taken, please choose another one'}, status = 400)
+
+
 
 # A class based view that inherits from the ListAPIView class. It is used to list all the todos that
 # are completed.
@@ -52,3 +81,13 @@ class TodoComplete(generics.UpdateAPIView):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+        """
+        When the user updates the status of a task, the datecompleted field will be updated with the
+        current time.
+        
+        :param serializer: The serializer instance that should be saved
+        """
+    def perform_update(self, serializer):
+        serializer.instance.datecompleted = timezone.now()
+        serializer.save()

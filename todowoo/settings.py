@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-r3)r^lt^@#h6*0&7p40v+q@lhuu(5o#5lq78#@@h$7!7mvwh*@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['awesometodowoo.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['awesometodowoo.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -42,7 +42,16 @@ INSTALLED_APPS = [
     'todo',
     'api',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
+
+# Setting the default authentication class to be TokenAuthentication.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework.authentication.TokenAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

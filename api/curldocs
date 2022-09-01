@@ -1,0 +1,4 @@
+curl -X 'POST' http://127.0.0.1:8000/api/signup -H 'Content-Type: application/json' -d '{\"username\":\"todowoo\",\"password\":\"1234\"}'
+
+create a new user 
+curl http://127.0.0.1:8000/api/todos -H 'Authorization': Token <-- input you generated token-->'

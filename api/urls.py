@@ -6,4 +6,7 @@ urlpatterns = [
     path('todos/', views.TodoListCreate.as_view()),
     path('todos/<int:pk>/', views.TodoRetrieveUpdateDestroy.as_view()),
     path('todos/<int:pk>/complete', views.TodoComplete.as_view()),
+
+    # signup api auth
+    path('signup', views.signup),
 ]
