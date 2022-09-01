@@ -1,7 +1,7 @@
 from lib2to3.pgen2 import token
 from django.db import IntegrityError
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import authenticate 
 from django.utils import timezone
 from rest_framework import generics, permissions
 from .serializers import TodoSerializer,TodoCompleteSerializer
@@ -29,7 +29,22 @@ def signup(request):
         except IntegrityError:
             return  JsonResponse({'error':'That username is already taken, please choose another one'}, status = 400)
 
-
+# login token
+@csrf_exempt
+def login(request):
+    if request.method == 'POST':
+            data = JSONParser().parse(request)
+            user = authenticate(request, username=data['username'], password=data['password'])
+            
+            # Creating a token for the user.
+            if user is None:
+                return  JsonResponse({'error':'Could not login. Please check username and password'}, status = 400)
+            else:
+                try:
+                    token = Token.objects.get(user=user)
+                except:
+                    token = Token.objects.create(user=user)
+                return JsonResponse({'token':str(token)}, status = 201)
 
 # A class based view that inherits from the ListAPIView class. It is used to list all the todos that
 # are completed.

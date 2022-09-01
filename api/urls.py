@@ -9,4 +9,7 @@ urlpatterns = [
 
     # signup api auth
     path('signup', views.signup),
+    # API LOGIN TO SEE THEIR TOKEN
+    path('login', views.login),
+
 ]

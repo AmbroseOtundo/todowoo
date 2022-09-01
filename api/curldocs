@@ -1,4 +1,10 @@
 curl -X 'POST' http://127.0.0.1:8000/api/signup -H 'Content-Type: application/json' -d '{\"username\":\"todowoo\",\"password\":\"1234\"}'
 
 create a new user 
-curl http://127.0.0.1:8000/api/todos -H 'Authorization': Token <-- input you generated token-->'
+curl http://127.0.0.1:8000/api/todos -H 'Authorization': Token b205298fe4355d591569bc8f2ef0d70b9ef37d49'
+
+login to get token--
+curl -X 'POST' http://127.0.0.1:8000/api/login -H 'Content-Type: application/json' -d '{\"username\":\"apiusertest1\",\"password\":\"1234\"}'
+
+<!-- HOW TO COMPLETE A TODO IN THE LIST -->
+curl -X 'PUT' http://127.0.0.1:8000/api/login -H 'Content-Type: application/json' 'Authorization': Token b205298fe4355d591569bc8f2ef0d70b9ef37d49'
